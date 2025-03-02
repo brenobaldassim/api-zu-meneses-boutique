@@ -1,0 +1,11 @@
+model Sale {
+  id           String        @id @default(uuid())
+  client       Client        @relation(fields: [clientId], references: [id])
+  clientId     String
+  saleDate     DateTime      @map("sale_date")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  saleProducts SaleProduct[]
+
+  @@map("sales")
+}

@@ -1,0 +1,18 @@
+enum AddressType {
+  HOME
+  WORK
+}
+
+model Address {
+  id       String      @id @default(uuid())
+  client   Client      @relation(fields: [clientId], references: [id])
+  clientId String
+  street   String      @db.VarChar(255)
+  city     String      @db.VarChar(100)
+  state    String      @db.VarChar(100)
+  cep      String?     @db.VarChar(20)
+  number   String      @db.VarChar(100)
+  type     AddressType
+
+  @@map("addresses")
+}
