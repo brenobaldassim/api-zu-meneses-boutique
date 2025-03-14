@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PING_MESSAGE_RESPONSE } from '@modules/server/constants';
+import { PING_MESSAGE_RESPONSE } from '@src/modules/@server/constants';
 
 @Injectable()
 export class AppService {
