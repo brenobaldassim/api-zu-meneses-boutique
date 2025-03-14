@@ -7,7 +7,7 @@ describe('UserService', () => {
   let service: UserService;
   let prismaService: PrismaService;
 
-  const mockUser = { id: '1', name: 'John Doe' };
+  const mockUser = { id: '1', email: 'test@example.com' };
 
   const prismaServiceMock = {
     user: {
@@ -51,6 +51,28 @@ describe('UserService', () => {
       (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null);
 
       await expect(service.findOne('2')).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('findOneByEmail', () => {
+    it('should return a user when found', async () => {
+      (prismaService.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
+
+      const result = await service.findOneByEmail('test@example.com');
+
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+        where: { email: 'test@example.com' },
+      });
+      expect(result).toEqual(mockUser);
+    });
+
+    it('should throw a NotFoundException if user is not found', async () => {
+      (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null);
+
+      await expect(
+        service.findOneByEmail('test@throwerror.com'),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 });

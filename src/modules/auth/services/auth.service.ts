@@ -5,6 +5,7 @@ import { UserEntity } from '@modules/user/entities/user.entity';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { LogInDto } from '../dtos/LogInDto';
+import { JwtPayload } from '@src/@types/auth';
 
 @Injectable()
 export class AuthService {
@@ -47,7 +48,7 @@ export class AuthService {
       throw new HttpException('Incorrect email/password combination.', 401);
     }
 
-    const payload = { sub: user.id, email: user.email };
+    const payload: JwtPayload = { sub: user.id, email: user.email };
 
     return {
       user: new UserEntity(user),
