@@ -4,6 +4,13 @@
   "sourceRoot": "src",
   "entryFile": "modules/@server/main",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "**/*.pug",
+        "watchAssets": true
+      }
+    ],
+    "watchAssets": true
   }
 }
