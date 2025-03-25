@@ -11,7 +11,6 @@ abstract class EmailServiceContract {
     email: string,
     token: string,
   ): Promise<void>;
-  public abstract sendWelcomeEmail(email: string): Promise<void>;
 }
 
 export { EmailServiceContract };

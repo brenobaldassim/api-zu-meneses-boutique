@@ -19,7 +19,10 @@ export class EmailService implements EmailServiceContract {
     });
   }
 
-  public async sendResetPasswordEmail(email: string, token: string) {
+  public async sendResetPasswordEmail(
+    email: string,
+    token: string,
+  ): Promise<void> {
     const tokenUrl = `${this.configService.get('EMAIL_RESET_PASSWORD_URL')}?token=${token}`;
 
     await this.send({
@@ -29,15 +32,6 @@ export class EmailService implements EmailServiceContract {
       context: {
         token: tokenUrl,
       },
-    });
-  }
-
-  public async sendWelcomeEmail(email: string) {
-    await this.send({
-      to: email,
-      subject: 'Welcome to the app',
-      template: 'welcome',
-      context: {},
     });
   }
 }

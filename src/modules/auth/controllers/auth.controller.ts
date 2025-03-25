@@ -7,21 +7,27 @@ import {
   UseGuards,
   Request,
   UseInterceptors,
+  Inject,
 } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
 import { AuthUserDto } from '../dtos/AuthUserDto';
 import { UserEntity } from '@modules/user/entities/user.entity';
 import { LogInDto } from '../dtos/LogInDto';
 import { AuthGuard } from '../guards/auth.guard';
-import { UserService } from '@src/modules/user/services/user.service';
 import { AuthenticatedRequest } from '@src/@types/auth';
+import { ForgotPasswordDto } from '../dtos/ForgotPasswordDto';
+import { EmailSentDto } from '../dtos/EmailSentDto';
+import { ResetPasswordDto } from '../dtos/ResetPasswordDto';
+import { UserServiceContract } from '@src/modules/user/contracts/user.service.contract';
+import { AuthServiceContract } from '../contracts/auth.service.contract';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService,
+    @Inject(AuthServiceContract)
+    private readonly authService: AuthServiceContract,
+    @Inject(UserServiceContract)
+    private readonly userService: UserServiceContract,
   ) {}
 
   @Post()
@@ -39,7 +45,29 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   async getProfile(@Request() req: AuthenticatedRequest): Promise<UserEntity> {
-    const user = await this.userService.findOneByEmail(req.user.email);
+    const user = await this.userService.findOneByEmailOrThrow(req.user.email);
     return new UserEntity(user);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() data: ForgotPasswordDto): Promise<EmailSentDto> {
+    const { email } = data;
+    await this.authService.forgotPassword(email);
+
+    return new EmailSentDto({
+      message: 'Email sent with sucess',
+      to: data.email,
+    });
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() data: ResetPasswordDto) {
+    const { token, new_password } = data;
+    const updatedUser = await this.authService.resetPassword(
+      token,
+      new_password,
+    );
+
+    return new UserEntity(updatedUser);
   }
 }

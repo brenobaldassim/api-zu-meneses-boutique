@@ -1,24 +1,29 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
-import { PrismaModule } from '@modules/prisma/prisma.module';
-import { UserModule } from '../user/user.module';
+import { UserModule } from '@modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwt } from '@src/config/auth';
-import { EmailModule } from '../email/email.module';
+import { EmailModule } from '@modules/email/email.module';
+import { AuthServiceContract } from './contracts/auth.service.contract';
 
 @Module({
-  controllers: [AuthController],
-  providers: [AuthService],
   imports: [
     JwtModule.register({
       global: true,
       secret: jwt.secret,
       signOptions: jwt.signOptions,
     }),
-    PrismaModule,
     EmailModule,
     UserModule,
   ],
+  controllers: [AuthController],
+  providers: [
+    {
+      provide: AuthServiceContract,
+      useClass: AuthService,
+    },
+  ],
+  exports: [AuthServiceContract],
 })
 export class AuthModule {}
