@@ -4,15 +4,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { AuthUserDto } from '../dtos/AuthUserDto';
+import type { AuthUserDto } from '../dtos/auth-user.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { LogInDto } from '../dtos/LogInDto';
+import { LogInDto } from '../dtos/login.dto';
 import { JwtPayload } from '@src/@types/auth';
-import { EmailServiceContract } from '@modules/email/contracts/email.service.contract';
-import { AuthServiceContract } from '../contracts/auth.service.contract';
-import { UserServiceContract } from '@src/modules/user/contracts/user.service.contract';
+import { EmailServiceContract } from '@src/modules/email/contracts/email-service.contract';
+import { AuthServiceContract } from '../contracts/auth-service.contract';
+import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
 
 @Injectable()
 export class AuthService implements AuthServiceContract {

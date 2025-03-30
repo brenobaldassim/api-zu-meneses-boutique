@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EmailService } from './email.service';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
-import { EmailServiceContract } from '../contracts/email.service.contract';
+import { EmailServiceContract } from '../contracts/email-service.contract';
 
 describe('EmailService', () => {
   let service: EmailServiceContract;

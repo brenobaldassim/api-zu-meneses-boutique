@@ -4,12 +4,12 @@ import { AuthService } from './auth.service';
 
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { LogInDto } from '../dtos/LogInDto';
+import { LogInDto } from '../dtos/login.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
-import { AuthUserDto } from '../dtos/AuthUserDto';
-import { AuthServiceContract } from '../contracts/auth.service.contract';
-import { EmailServiceContract } from '@modules/email/contracts/email.service.contract';
-import { UserServiceContract } from '@src/modules/user/contracts/user.service.contract';
+import { AuthUserDto } from '../dtos/auth-user.dto';
+import { AuthServiceContract } from '../contracts/auth-service.contract';
+import { EmailServiceContract } from '@src/modules/email/contracts/email-service.contract';
+import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
 
 jest.mock('@modules/prisma/services/prisma.service');
 

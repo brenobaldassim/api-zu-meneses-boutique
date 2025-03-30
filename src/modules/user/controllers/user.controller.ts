@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UserEntity } from '../entities/user.entity';
-import { UserServiceContract } from '../contracts/user.service.contract';
+import { UserServiceContract } from '../contracts/user-service.contract';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')

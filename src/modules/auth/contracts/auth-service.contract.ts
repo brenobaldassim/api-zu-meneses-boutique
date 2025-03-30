@@ -1,6 +1,6 @@
 import { UserEntity } from '@src/modules/user/entities/user.entity';
-import { AuthUserDto } from '../dtos/AuthUserDto';
-import { LogInDto } from '../dtos/LogInDto';
+import { AuthUserDto } from '../dtos/auth-user.dto';
+import { LogInDto } from '../dtos/login.dto';
 
 export abstract class AuthServiceContract {
   public abstract login(data: AuthUserDto): Promise<LogInDto>;

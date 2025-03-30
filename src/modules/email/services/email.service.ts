@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   EmailServiceContract,
   EmailServiceSendInput,
-} from '../contracts/email.service.contract';
+} from '../contracts/email-service.contract';
 
 @Injectable()
 export class EmailService implements EmailServiceContract {

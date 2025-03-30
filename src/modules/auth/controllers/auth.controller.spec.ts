@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
-import { AuthUserDto } from '../dtos/AuthUserDto';
+import { AuthUserDto } from '../dtos/auth-user.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
 import { AuthenticatedRequest, JwtPayload } from '@src/@types/auth';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '../guards/auth.guard';
-import { UserServiceContract } from '@src/modules/user/contracts/user.service.contract';
-import { EmailServiceContract } from '@src/modules/email/contracts/email.service.contract';
-import { AuthServiceContract } from '../contracts/auth.service.contract';
-import { ForgotPasswordDto } from '../dtos/ForgotPasswordDto';
-import { ResetPasswordDto } from '../dtos/ResetPasswordDto';
+import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
+import { EmailServiceContract } from '@src/modules/email/contracts/email-service.contract';
+import { AuthServiceContract } from '../contracts/auth-service.contract';
+import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
 describe('AuthController', () => {
   let authController: AuthController;
