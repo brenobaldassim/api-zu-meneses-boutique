@@ -5,7 +5,7 @@ import { UserModule } from '@modules/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwt } from '@src/config/auth';
 import { EmailModule } from '@modules/email/email.module';
-import { AuthServiceContract } from './contracts/auth.service.contract';
+import { AuthServiceContract } from './contracts/auth-service.contract';
 
 @Module({
   imports: [

@@ -9,16 +9,16 @@ import {
   UseInterceptors,
   Inject,
 } from '@nestjs/common';
-import { AuthUserDto } from '../dtos/AuthUserDto';
+import { AuthUserDto } from '../dtos/auth-user.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
-import { LogInDto } from '../dtos/LogInDto';
+import { LogInDto } from '../dtos/login.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { AuthenticatedRequest } from '@src/@types/auth';
-import { ForgotPasswordDto } from '../dtos/ForgotPasswordDto';
-import { EmailSentDto } from '../dtos/EmailSentDto';
-import { ResetPasswordDto } from '../dtos/ResetPasswordDto';
-import { UserServiceContract } from '@src/modules/user/contracts/user.service.contract';
-import { AuthServiceContract } from '../contracts/auth.service.contract';
+import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
+import { EmailSentDto } from '../dtos/email-sent.dto';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
+import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
+import { AuthServiceContract } from '../contracts/auth-service.contract';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')

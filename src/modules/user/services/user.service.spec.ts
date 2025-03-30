@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@src/modules/prisma/services/prisma.service';
 import { UserService } from './user.service';
-import { UserServiceContract } from '../contracts/user.service.contract';
+import { UserServiceContract } from '../contracts/user-service.contract';
 import { UserEntity } from '../entities/user.entity';
 
 describe('UserService', () => {
