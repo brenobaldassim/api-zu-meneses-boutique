@@ -9,6 +9,7 @@ import {
 import { UserEntity } from '../entities/user.entity';
 import { UserServiceContract } from '../contracts/user.service.contract';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
   constructor(
@@ -16,7 +17,6 @@ export class UserController {
     private readonly userService: UserServiceContract,
   ) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserEntity> {
     const user = await this.userService.findOneOrThrow(id);
