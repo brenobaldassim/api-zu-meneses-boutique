@@ -13,8 +13,8 @@ export class AddressService implements AddressServiceContract {
     return await this.prisma.address.create({ data });
   }
 
-  async findByClientId(clientId: string): Promise<AddressEntity | null> {
-    return await this.prisma.address.findFirst({ where: { clientId } });
+  async findManyByClientId(clientId: string): Promise<AddressEntity[] | null> {
+    return await this.prisma.address.findMany({ where: { clientId } });
   }
 
   async update(id: string, data: UpdateAddressDto): Promise<AddressEntity> {

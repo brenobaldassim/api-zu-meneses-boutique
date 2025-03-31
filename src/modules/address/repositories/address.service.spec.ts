@@ -24,7 +24,7 @@ describe('AddressService', () => {
   const prismaServiceMock = {
     address: {
       create: jest.fn(),
-      findFirst: jest.fn(),
+      findMany: jest.fn(),
       update: jest.fn(),
     },
   };
@@ -78,25 +78,26 @@ describe('AddressService', () => {
     });
   });
 
-  describe('findByClientId', () => {
-    it('should return an address when found', async () => {
-      (prismaService.address.findFirst as jest.Mock).mockResolvedValue(
-        mockAddress,
+  describe('findManyByClientId', () => {
+    it('should return an array of addresses when found', async () => {
+      const addresses: AddressEntity[] = [mockAddress, mockAddress];
+      (prismaService.address.findMany as jest.Mock).mockResolvedValue(
+        addresses,
       );
 
-      const result = await service.findByClientId('client-1');
+      const result = await service.findManyByClientId('client-1');
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(prismaService.address.findFirst).toHaveBeenCalledWith({
+      expect(prismaService.address.findMany).toHaveBeenCalledWith({
         where: { clientId: 'client-1' },
       });
-      expect(result).toEqual(mockAddress);
+      expect(result).toEqual(addresses);
     });
 
-    it('should return null if address is not found', async () => {
-      (prismaService.address.findFirst as jest.Mock).mockResolvedValue(null);
+    it('should return null if no addresses are found', async () => {
+      (prismaService.address.findMany as jest.Mock).mockResolvedValue(null);
 
-      const result = await service.findByClientId('non-existent-client');
+      const result = await service.findManyByClientId('non-existent-client');
 
       expect(result).toBeNull();
     });
