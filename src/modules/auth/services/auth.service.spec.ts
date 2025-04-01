@@ -53,7 +53,7 @@ describe('AuthService', () => {
     jest.clearAllMocks();
   });
 
-  describe('create', () => {
+  describe('register', () => {
     it('should create a new user if user does not exist', async () => {
       const password = 'password';
       const inputData: AuthUserDto = {
@@ -65,14 +65,16 @@ describe('AuthService', () => {
       (userService.findOneByEmail as jest.Mock).mockResolvedValue(null);
       jest.spyOn(argon2, 'hash').mockResolvedValue(hashedPassword);
 
-      const createdUser = {
+      const createdUser = new UserEntity({
         id: 'yuagyudagyu111',
         email: inputData.email,
         password: hashedPassword,
-      };
+      });
+
+      const token = 'token';
       (userService.create as jest.Mock).mockResolvedValue(createdUser);
 
-      const result = await service.create(inputData);
+      const result = await service.register(inputData);
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(userService.findOneByEmail).toHaveBeenCalledWith(inputData.email);
@@ -82,7 +84,10 @@ describe('AuthService', () => {
         ...inputData,
         password: hashedPassword,
       });
-      expect(result).toEqual(createdUser);
+      expect(result).toEqual({
+        user: createdUser,
+        token,
+      });
     });
 
     it('should throw HttpException if user already exists', async () => {
@@ -94,8 +99,8 @@ describe('AuthService', () => {
       };
       (userService.findOneByEmail as jest.Mock).mockResolvedValue(existingUser);
 
-      await expect(service.create(inputData)).rejects.toThrow(HttpException);
-      await expect(service.create(inputData)).rejects.toThrow(
+      await expect(service.register(inputData)).rejects.toThrow(HttpException);
+      await expect(service.register(inputData)).rejects.toThrow(
         'User with this email already exist',
       );
     });
@@ -109,8 +114,8 @@ describe('AuthService', () => {
 
       (userService.create as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.create(inputData)).rejects.toThrow(HttpException);
-      await expect(service.create(inputData)).rejects.toThrow(
+      await expect(service.register(inputData)).rejects.toThrow(HttpException);
+      await expect(service.register(inputData)).rejects.toThrow(
         'User not created',
       );
     });

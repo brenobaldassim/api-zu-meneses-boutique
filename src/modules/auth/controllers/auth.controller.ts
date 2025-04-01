@@ -19,6 +19,7 @@ import { EmailSentDto } from '../dtos/email-sent.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
 import { AuthServiceContract } from '../contracts/auth-service.contract';
+import { RegisterDto } from '../dtos/resgister.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')
@@ -31,15 +32,15 @@ export class AuthController {
   ) {}
 
   @Post()
-  async create(@Body() data: AuthUserDto): Promise<UserEntity> {
-    const user = await this.authService.create(data);
-    return new UserEntity(user);
+  async register(@Body() data: AuthUserDto): Promise<RegisterDto> {
+    const { user, token } = await this.authService.register(data);
+    return new RegisterDto({ user: new UserEntity(user), token });
   }
 
   @Post('login')
   async login(@Body() data: AuthUserDto): Promise<LogInDto> {
-    const userAndToken = await this.authService.login(data);
-    return new LogInDto(userAndToken);
+    const { user, token } = await this.authService.login(data);
+    return new LogInDto({ user: new UserEntity(user), token });
   }
 
   @UseGuards(AuthGuard)

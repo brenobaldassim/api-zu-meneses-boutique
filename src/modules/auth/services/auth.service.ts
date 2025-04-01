@@ -24,7 +24,7 @@ export class AuthService implements AuthServiceContract {
     private readonly userService: UserServiceContract,
   ) {}
 
-  async create(data: AuthUserDto): Promise<UserEntity> {
+  async register(data: AuthUserDto): Promise<LogInDto> {
     const userExistent = await this.userService.findOneByEmail(data.email);
 
     if (userExistent) {
@@ -39,7 +39,13 @@ export class AuthService implements AuthServiceContract {
       throw new HttpException('User not created.', 500);
     }
 
-    return newUser;
+    const payload: JwtPayload = { sub: newUser.id, email: newUser.email };
+    const token: string = await this.jwtService.signAsync(payload);
+
+    return {
+      user: newUser,
+      token,
+    };
   }
 
   async login(data: AuthUserDto): Promise<LogInDto> {
@@ -57,10 +63,11 @@ export class AuthService implements AuthServiceContract {
     }
 
     const payload: JwtPayload = { sub: user.id, email: user.email };
+    const token: string = await this.jwtService.signAsync(payload);
 
     return {
-      user: new UserEntity(user),
-      token: await this.jwtService.signAsync(payload),
+      user,
+      token,
     };
   }
 

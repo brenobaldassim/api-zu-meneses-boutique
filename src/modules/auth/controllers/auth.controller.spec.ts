@@ -17,7 +17,7 @@ describe('AuthController', () => {
   let userService: UserServiceContract;
 
   const mockAuthService = {
-    create: jest.fn(),
+    register: jest.fn(),
     login: jest.fn(),
     resetPassword: jest.fn(),
     forgotPassword: jest.fn(),
@@ -60,20 +60,25 @@ describe('AuthController', () => {
     jest.clearAllMocks();
   });
 
-  describe('create', () => {
+  describe('register', () => {
     it('should return a user wrapped in UserEntity', async () => {
       const createUserDto: AuthUserDto = {
         email: 'test@example.com',
         password: 'secret',
       } as AuthUserDto;
 
+      const token = 'token';
+
       const userPayload = { id: 'iyhuagd181', email: 'test@example.com' };
-      (authService.create as jest.Mock).mockResolvedValue(userPayload);
-      const result = await authController.create(createUserDto);
+      (authService.register as jest.Mock).mockResolvedValue({
+        user: new UserEntity(userPayload),
+        token,
+      });
+      const result = await authController.register(createUserDto);
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(authService.create).toHaveBeenCalledWith(createUserDto);
-      expect(result).toEqual(new UserEntity(userPayload));
+      expect(authService.register).toHaveBeenCalledWith(createUserDto);
+      expect(result).toEqual({ user: new UserEntity(userPayload), token });
     });
   });
 
