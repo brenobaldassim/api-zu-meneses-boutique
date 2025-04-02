@@ -87,6 +87,7 @@ export class ClientService implements ClientServiceContract {
       where: { id },
       data: {
         ...data,
+        updatedAt: new Date(),
         addresses: {
           update: updateOps,
           create: createOps,

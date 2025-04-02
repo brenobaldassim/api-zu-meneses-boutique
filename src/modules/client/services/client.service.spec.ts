@@ -169,6 +169,7 @@ describe('ClientService', () => {
       const updatedClient = {
         id,
         name: 'Updated Client',
+        updatedAt: new Date(),
         addresses: [
           {
             id: 'a1',
@@ -192,6 +193,7 @@ describe('ClientService', () => {
         where: { id },
         data: {
           name: 'Updated Client',
+          updatedAt: new Date(),
           addresses: {
             update: [
               {
@@ -240,6 +242,7 @@ describe('ClientService', () => {
       const updatedClient = new ClientEntity({
         id,
         name: 'Client With New Address',
+        updatedAt: new Date(),
         addresses: [
           {
             street: 'New Street',
@@ -267,6 +270,7 @@ describe('ClientService', () => {
         where: { id },
         data: {
           name: 'Client With New Address',
+          updatedAt: new Date(),
           addresses: {
             update: [
               // Even if no id is provided, the code below pushes an update op.
