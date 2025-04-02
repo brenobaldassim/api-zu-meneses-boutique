@@ -273,16 +273,12 @@ describe('ClientService', () => {
           updatedAt: new Date(),
           addresses: {
             update: [
-              // Even if no id is provided, the code below pushes an update op.
               {
                 where: { id: undefined },
                 data: { street: 'New Street', clientId: id, city: 'New City' },
               },
             ],
-            create: [
-              // Expect that a new CreateAddressDto was constructed from the address
-              { street: 'New Street', clientId: id, city: 'New City' },
-            ],
+            create: [{ street: 'New Street', clientId: id, city: 'New City' }],
           },
         },
         include: { addresses: true },
