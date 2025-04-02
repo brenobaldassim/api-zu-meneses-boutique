@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { PrismaService } from '@src/modules/prisma/services/prisma.service';
-import { CreateClientDto } from '../dtos/create-client.dto';
-import { UpdateClientDto } from '../dtos/update-client.dto';
+import { CreateClientRequestDto } from '../dtos/create-client-request.dto';
+import { UpdateClientRequestDto } from '../dtos/update-client-request.dto';
 import { ClientEntity } from '../entities/client.entity';
 
 describe('ClientService', () => {
@@ -38,7 +38,7 @@ describe('ClientService', () => {
   });
 
   describe('create', () => {
-    const mockCreateClientDto: CreateClientDto = {
+    const mockCreateClientDto: CreateClientRequestDto = {
       name: 'Test Client',
       lastName: 'Smith',
       email: 'client@example.com',
@@ -145,14 +145,15 @@ describe('ClientService', () => {
 
   describe('update', () => {
     it('should throw an error if id is not provided', async () => {
-      await expect(service.update('', {} as UpdateClientDto)).rejects.toThrow(
-        HttpException,
-      );
+      await expect(
+        service.update('', {} as UpdateClientRequestDto),
+      ).rejects.toThrow(HttpException);
     });
 
     it('should update client successfully when addresses have an id', async () => {
+      const updatedDate = new Date();
       const id = '1';
-      const updateClientDto: UpdateClientDto = {
+      const UpdateClientRequestDto: UpdateClientRequestDto = {
         name: 'Updated Client',
         addresses: [
           {
@@ -169,7 +170,7 @@ describe('ClientService', () => {
       const updatedClient = {
         id,
         name: 'Updated Client',
-        updatedAt: new Date(),
+        updatedAt: updatedDate,
         addresses: [
           {
             id: 'a1',
@@ -182,7 +183,7 @@ describe('ClientService', () => {
 
       (prisma.client.update as jest.Mock).mockResolvedValue(updatedClient);
 
-      const result = await service.update(id, updateClientDto);
+      const result = await service.update(id, UpdateClientRequestDto);
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(prisma.address.findMany).toHaveBeenCalledWith({
@@ -193,7 +194,7 @@ describe('ClientService', () => {
         where: { id },
         data: {
           name: 'Updated Client',
-          updatedAt: new Date(),
+          updatedAt: updatedDate,
           addresses: {
             update: [
               {
@@ -216,7 +217,7 @@ describe('ClientService', () => {
 
     it('should throw an error if a new address is provided without an id when old addresses exist', async () => {
       const id = '1';
-      const updateClientDto: UpdateClientDto = {
+      const UpdateClientRequestDto: UpdateClientRequestDto = {
         addresses: [{ street: 'New Street', clientId: id, city: 'New City' }],
       };
 
@@ -225,14 +226,15 @@ describe('ClientService', () => {
         { id: 'existing-address' },
       ]);
 
-      await expect(service.update(id, updateClientDto)).rejects.toThrow(
+      await expect(service.update(id, UpdateClientRequestDto)).rejects.toThrow(
         HttpException,
       );
     });
 
     it('should create a new address if none exist and id is not provided', async () => {
+      const updatedDate = new Date();
       const id = '1';
-      const updateClientDto: UpdateClientDto = {
+      const UpdateClientRequestDto: UpdateClientRequestDto = {
         name: 'Client With New Address',
         addresses: [{ street: 'New Street', clientId: id, city: 'New City' }],
       };
@@ -242,7 +244,7 @@ describe('ClientService', () => {
       const updatedClient = new ClientEntity({
         id,
         name: 'Client With New Address',
-        updatedAt: new Date(),
+        updatedAt: updatedDate,
         addresses: [
           {
             street: 'New Street',
@@ -259,7 +261,7 @@ describe('ClientService', () => {
 
       (prisma.client.update as jest.Mock).mockResolvedValue(updatedClient);
 
-      const result = await service.update(id, updateClientDto);
+      const result = await service.update(id, UpdateClientRequestDto);
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(prisma.address.findMany).toHaveBeenCalledWith({
@@ -270,7 +272,7 @@ describe('ClientService', () => {
         where: { id },
         data: {
           name: 'Client With New Address',
-          updatedAt: new Date(),
+          updatedAt: updatedDate,
           addresses: {
             update: [
               {

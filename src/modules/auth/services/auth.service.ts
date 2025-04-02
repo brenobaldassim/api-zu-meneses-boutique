@@ -4,15 +4,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import type { AuthUserDto } from '../dtos/auth-user.dto';
+import type { RegisterUserRequestDto } from '../dtos/register-user-request.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { LogInDto } from '../dtos/login.dto';
+import { LogInUserResponseDto } from '../dtos/login-user-response.dto';
 import { JwtPayload } from '@src/@types/auth';
-import { EmailServiceContract } from '@src/modules/email/contracts/email-service.contract';
-import { AuthServiceContract } from '../contracts/auth-service.contract';
-import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
+import { EmailServiceContract } from '@src/modules/email/services/contracts/email-service.contract';
+import { AuthServiceContract } from './contracts/auth-service.contract';
+import { UserServiceContract } from '@src/modules/user/services/contracts/user-service.contract';
+import { RegisterUserResponseDto } from '../dtos/resgister-user-response.dto';
+import { LoginUserRequestDto } from '../dtos/login-user-request.dto';
 
 @Injectable()
 export class AuthService implements AuthServiceContract {
@@ -24,17 +26,19 @@ export class AuthService implements AuthServiceContract {
     private readonly userService: UserServiceContract,
   ) {}
 
-  async register(data: AuthUserDto): Promise<LogInDto> {
-    const userExistent = await this.userService.findOneByEmail(data.email);
+  async register(
+    body: RegisterUserRequestDto,
+  ): Promise<RegisterUserResponseDto> {
+    const userExistent = await this.userService.findOneByEmail(body.email);
 
     if (userExistent) {
       throw new HttpException('User with this email already exist.', 400);
     }
 
-    const { password } = data;
-    data.password = await argon2.hash(password);
+    const { password } = body;
+    body.password = await argon2.hash(password);
 
-    const newUser = await this.userService.create(data);
+    const newUser = await this.userService.create(body);
     if (!newUser) {
       throw new HttpException('User not created.', 500);
     }
@@ -48,8 +52,8 @@ export class AuthService implements AuthServiceContract {
     };
   }
 
-  async login(data: AuthUserDto): Promise<LogInDto> {
-    const { email, password } = data;
+  async login(body: LoginUserRequestDto): Promise<LogInUserResponseDto> {
+    const { email, password } = body;
     const user = await this.userService.findOneByEmail(email);
 
     if (!user) {

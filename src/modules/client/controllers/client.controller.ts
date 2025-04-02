@@ -11,9 +11,9 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
 } from '@nestjs/common';
-import { CreateClientDto } from '../dtos/create-client.dto';
-import { UpdateClientDto } from '../dtos/update-client.dto';
-import { ClientServiceContract } from '../contracts/client-service.contract';
+import { CreateClientRequestDto } from '../dtos/create-client-request.dto';
+import { UpdateClientRequestDto } from '../dtos/update-client-request.dto';
+import { ClientServiceContract } from '../services/contracts/client-service.contract';
 import { AuthGuard } from '@src/modules/auth/guards/auth.guard';
 import { ClientEntity } from '../entities/client.entity';
 
@@ -27,19 +27,19 @@ export class ClientController {
   ) {}
 
   @Post()
-  async create(@Body() createClientDto: CreateClientDto) {
-    const client = await this.clientService.create(createClientDto);
+  async create(@Body() body: CreateClientRequestDto): Promise<ClientEntity> {
+    const client = await this.clientService.create(body);
     return new ClientEntity(client);
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<ClientEntity[]> {
     const clients = await this.clientService.findAll();
     return clients.map((client) => new ClientEntity(client));
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<ClientEntity> {
     const client = await this.clientService.findUniqueOrThrow(id);
     return new ClientEntity(client);
   }
@@ -47,9 +47,9 @@ export class ClientController {
   @Patch(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateClientDto: UpdateClientDto,
+    @Body() body: UpdateClientRequestDto,
   ): Promise<ClientEntity> {
-    const client = await this.clientService.update(id, updateClientDto);
+    const client = await this.clientService.update(id, body);
     return new ClientEntity(client);
   }
 

@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
-import { AuthUserDto } from '../dtos/auth-user.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
 import { AuthenticatedRequest, JwtPayload } from '@src/@types/auth';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '../guards/auth.guard';
-import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
-import { EmailServiceContract } from '@src/modules/email/contracts/email-service.contract';
-import { AuthServiceContract } from '../contracts/auth-service.contract';
+import { UserServiceContract } from '@src/modules/user/services/contracts/user-service.contract';
+import { EmailServiceContract } from '@src/modules/email/services/contracts/email-service.contract';
+import { AuthServiceContract } from '../services/contracts/auth-service.contract';
 import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
@@ -62,10 +61,10 @@ describe('AuthController', () => {
 
   describe('register', () => {
     it('should return a user wrapped in UserEntity', async () => {
-      const createUserDto: AuthUserDto = {
+      const createUserDto = {
         email: 'test@example.com',
         password: 'secret',
-      } as AuthUserDto;
+      };
 
       const token = 'token';
 
@@ -84,10 +83,10 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should return a LogInDto with token and user', async () => {
-      const loginUserDto: AuthUserDto = {
+      const loginUserDto = {
         email: 'test@example.com',
         password: 'secret',
-      } as AuthUserDto;
+      };
       const userPayload = { id: 'iyhuagd181', email: 'test@example.com' };
       const token = 'token';
       const userAndToken = {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@src/modules/prisma/services/prisma.service';
 import { UserEntity } from '../entities/user.entity';
-import { UserServiceContract } from '../contracts/user-service.contract';
+import { UserServiceContract } from './contracts/user-service.contract';
 
 @Injectable()
 export class UserService implements UserServiceContract {

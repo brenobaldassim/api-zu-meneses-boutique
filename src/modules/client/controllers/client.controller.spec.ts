@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientController } from './client.controller';
-import { ClientServiceContract } from '../contracts/client-service.contract';
+import { ClientServiceContract } from '../services/contracts/client-service.contract';
 import { ClientEntity } from '../entities/client.entity';
-import { CreateClientDto } from '../dtos/create-client.dto';
-import { UpdateClientDto } from '../dtos/update-client.dto';
+import { CreateClientRequestDto } from '../dtos/create-client-request.dto';
+import { UpdateClientRequestDto } from '../dtos/update-client-request.dto';
 import { HttpException } from '@nestjs/common';
 import { AuthGuard } from '@src/modules/auth/guards/auth.guard';
 
@@ -39,7 +39,7 @@ describe('ClientController', () => {
   });
 
   describe('create', () => {
-    const mockCreateClientDto: CreateClientDto = {
+    const mockCreateClientDto: CreateClientRequestDto = {
       name: 'Test Client',
       lastName: 'Smith',
       email: 'client@example.com',
@@ -143,7 +143,7 @@ describe('ClientController', () => {
 
   describe('update', () => {
     it('should update and return the updated client', async () => {
-      const updateClientDto: UpdateClientDto = {
+      const UpdateClientRequestDto: UpdateClientRequestDto = {
         name: 'Updated Client',
         addresses: [
           {
@@ -181,9 +181,12 @@ describe('ClientController', () => {
         new ClientEntity(updatedData),
       );
 
-      const result = await controller.update('1', updateClientDto);
+      const result = await controller.update('1', UpdateClientRequestDto);
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(clientService.update).toHaveBeenCalledWith('1', updateClientDto);
+      expect(clientService.update).toHaveBeenCalledWith(
+        '1',
+        UpdateClientRequestDto,
+      );
       expect(result).toEqual(new ClientEntity(updatedData));
     });
   });

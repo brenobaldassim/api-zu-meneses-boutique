@@ -1,7 +1,7 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import { CreateClientDto } from '../dtos/create-client.dto';
-import { UpdateClientDto } from '../dtos/update-client.dto';
-import { ClientServiceContract } from '../contracts/client-service.contract';
+import { CreateClientRequestDto } from '../dtos/create-client-request.dto';
+import { UpdateClientRequestDto } from '../dtos/update-client-request.dto';
+import { ClientServiceContract } from './contracts/client-service.contract';
 import { ClientEntity } from '../entities/client.entity';
 import { PrismaService } from '@src/modules/prisma/services/prisma.service';
 import { Prisma } from '@prisma/client';
@@ -10,8 +10,8 @@ import { CreateAddressDto } from '@src/modules/address/dtos/create-address.dto';
 @Injectable()
 export class ClientService implements ClientServiceContract {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
-  async create(createClientDto: CreateClientDto): Promise<ClientEntity> {
-    const { addresses, ...data } = createClientDto;
+  async create(body: CreateClientRequestDto): Promise<ClientEntity> {
+    const { addresses, ...data } = body;
 
     const client = await this.prisma.client.findUnique({
       where: { email: data.email },
@@ -51,13 +51,13 @@ export class ClientService implements ClientServiceContract {
 
   async update(
     id: string,
-    updateClientDto: UpdateClientDto,
+    body: UpdateClientRequestDto,
   ): Promise<ClientEntity> {
     if (!id) {
       throw new HttpException('Id is required', 400);
     }
 
-    const { addresses, ...data } = updateClientDto;
+    const { addresses, ...data } = body;
 
     const updateOps: Prisma.AddressUpdateWithWhereUniqueWithoutClientInput[] =
       [];

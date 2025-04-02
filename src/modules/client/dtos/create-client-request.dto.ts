@@ -8,7 +8,7 @@ import {
 import { CreateAddressDto } from '@src/modules/address/dtos/create-address.dto';
 import { Type } from 'class-transformer';
 
-export class CreateClientDto {
+export class CreateClientRequestDto {
   @IsNotEmpty({ message: 'Name cannot be empty' })
   name: string;
 
@@ -36,7 +36,7 @@ export class CreateClientDto {
   @Type(() => CreateAddressDto)
   addresses: CreateAddressDto[];
 
-  constructor(partial: Partial<CreateClientDto>) {
+  constructor(partial: Partial<CreateClientRequestDto>) {
     Object.assign(this, partial);
   }
 }

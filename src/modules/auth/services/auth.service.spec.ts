@@ -4,12 +4,13 @@ import { AuthService } from './auth.service';
 
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { LogInDto } from '../dtos/login.dto';
+import { LogInUserResponseDto } from '../dtos/login-user-response.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
-import { AuthUserDto } from '../dtos/auth-user.dto';
-import { AuthServiceContract } from '../contracts/auth-service.contract';
-import { EmailServiceContract } from '@src/modules/email/contracts/email-service.contract';
-import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
+import { RegisterUserRequestDto } from '../dtos/register-user-request.dto';
+import { AuthServiceContract } from './contracts/auth-service.contract';
+import { EmailServiceContract } from '@src/modules/email/services/contracts/email-service.contract';
+import { UserServiceContract } from '@src/modules/user/services/contracts/user-service.contract';
+import { LoginUserRequestDto } from '../dtos/login-user-request.dto';
 
 jest.mock('@modules/prisma/services/prisma.service');
 
@@ -56,7 +57,7 @@ describe('AuthService', () => {
   describe('register', () => {
     it('should create a new user if user does not exist', async () => {
       const password = 'password';
-      const inputData: AuthUserDto = {
+      const inputData: RegisterUserRequestDto = {
         email: 'test@example.com',
         password: password,
       };
@@ -128,7 +129,7 @@ describe('AuthService', () => {
       email: inputEmail,
       password: 'hashed-password',
     };
-    const longInInfo: AuthUserDto = {
+    const longInInfo: LoginUserRequestDto = {
       email: inputEmail,
       password: inputPassword,
     };
@@ -137,7 +138,7 @@ describe('AuthService', () => {
       (userService.findOneByEmail as jest.Mock).mockResolvedValue(fakeUser);
       jest.spyOn(argon2, 'verify').mockResolvedValue(true);
 
-      const result: LogInDto = await service.login(longInInfo);
+      const result: LogInUserResponseDto = await service.login(longInInfo);
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(userService.findOneByEmail).toHaveBeenCalledWith(inputEmail);
