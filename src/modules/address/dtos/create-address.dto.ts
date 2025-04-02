@@ -5,9 +5,6 @@ export class CreateAddressDto {
   @IsNotEmpty({ message: 'Number is required' })
   number: string;
 
-  @IsNotEmpty({ message: 'Client ID is required' })
-  clientId: string;
-
   @IsNotEmpty({ message: 'Street is required' })
   street: string;
 
