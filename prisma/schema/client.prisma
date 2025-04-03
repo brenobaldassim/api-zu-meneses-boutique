@@ -7,6 +7,7 @@ model Client {
   socialMedia String    @map("social_media") @db.VarChar(50)
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
   sales       Sale[]
   addresses   Address[]
 

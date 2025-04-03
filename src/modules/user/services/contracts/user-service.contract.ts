@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../../entities/user.entity';
 
 export abstract class UserServiceContract {
   public abstract create(data: Prisma.UserCreateInput): Promise<UserEntity>;

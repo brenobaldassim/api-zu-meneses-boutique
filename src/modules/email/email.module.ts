@@ -4,7 +4,7 @@ import { EmailService } from './services/email.service';
 import { UserModule } from '../user/user.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { EmailServiceContract } from './contracts/email-service.contract';
+import { EmailServiceContract } from './services/contracts/email-service.contract';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 

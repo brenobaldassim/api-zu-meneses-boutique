@@ -9,16 +9,20 @@ import {
   UseInterceptors,
   Inject,
 } from '@nestjs/common';
-import { AuthUserDto } from '../dtos/auth-user.dto';
+import { RegisterUserRequestDto } from '../dtos/register-user-request.dto';
 import { UserEntity } from '@modules/user/entities/user.entity';
-import { LogInDto } from '../dtos/login.dto';
+
 import { AuthGuard } from '../guards/auth.guard';
 import { AuthenticatedRequest } from '@src/@types/auth';
 import { ForgotPasswordDto } from '../dtos/forgot-password.dto';
 import { EmailSentDto } from '../dtos/email-sent.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
-import { UserServiceContract } from '@src/modules/user/contracts/user-service.contract';
-import { AuthServiceContract } from '../contracts/auth-service.contract';
+import { UserServiceContract } from '@src/modules/user/services/contracts/user-service.contract';
+import { AuthServiceContract } from '../services/contracts/auth-service.contract';
+
+import { LoginUserRequestDto } from '../dtos/login-user-request.dto';
+import { LogInUserResponseDto } from '../dtos/login-user-response.dto';
+import { RegisterUserResponseDto } from '../dtos/resgister-user-response.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')
@@ -31,15 +35,19 @@ export class AuthController {
   ) {}
 
   @Post()
-  async create(@Body() data: AuthUserDto): Promise<UserEntity> {
-    const user = await this.authService.create(data);
-    return new UserEntity(user);
+  async register(
+    @Body() body: RegisterUserRequestDto,
+  ): Promise<RegisterUserResponseDto> {
+    const { user, token } = await this.authService.register(body);
+    return new RegisterUserResponseDto({ user: new UserEntity(user), token });
   }
 
   @Post('login')
-  async login(@Body() data: AuthUserDto): Promise<LogInDto> {
-    const userAndToken = await this.authService.login(data);
-    return new LogInDto(userAndToken);
+  async login(
+    @Body() body: LoginUserRequestDto,
+  ): Promise<LogInUserResponseDto> {
+    const { user, token } = await this.authService.login(body);
+    return new LogInUserResponseDto({ user: new UserEntity(user), token });
   }
 
   @UseGuards(AuthGuard)
@@ -50,19 +58,19 @@ export class AuthController {
   }
 
   @Post('forgot-password')
-  async forgotPassword(@Body() data: ForgotPasswordDto): Promise<EmailSentDto> {
-    const { email } = data;
+  async forgotPassword(@Body() body: ForgotPasswordDto): Promise<EmailSentDto> {
+    const { email } = body;
     await this.authService.forgotPassword(email);
 
     return new EmailSentDto({
       message: 'Email sent with sucess',
-      to: data.email,
+      to: body.email,
     });
   }
 
   @Post('reset-password')
-  async resetPassword(@Body() data: ResetPasswordDto) {
-    const { token, new_password } = data;
+  async resetPassword(@Body() body: ResetPasswordDto) {
+    const { token, new_password } = body;
     const updatedUser = await this.authService.resetPassword(
       token,
       new_password,
