@@ -151,14 +151,12 @@ describe('ClientService', () => {
     });
 
     it('should update client successfully when addresses have an id', async () => {
-      const updatedDate = new Date();
       const id = '1';
       const UpdateClientRequestDto: UpdateClientRequestDto = {
         name: 'Updated Client',
         addresses: [
           {
             id: 'a1',
-            clientId: id,
             street: 'Updated Street',
             city: 'New City',
           },
@@ -170,7 +168,6 @@ describe('ClientService', () => {
       const updatedClient = {
         id,
         name: 'Updated Client',
-        updatedAt: updatedDate,
         addresses: [
           {
             id: 'a1',
@@ -194,14 +191,12 @@ describe('ClientService', () => {
         where: { id },
         data: {
           name: 'Updated Client',
-          updatedAt: updatedDate,
           addresses: {
             update: [
               {
                 where: { id: 'a1' },
                 data: {
                   id: 'a1',
-                  clientId: id,
                   street: 'Updated Street',
                   city: 'New City',
                 },
@@ -218,7 +213,7 @@ describe('ClientService', () => {
     it('should throw an error if a new address is provided without an id when old addresses exist', async () => {
       const id = '1';
       const UpdateClientRequestDto: UpdateClientRequestDto = {
-        addresses: [{ street: 'New Street', clientId: id, city: 'New City' }],
+        addresses: [{ street: 'New Street', city: 'New City' }],
       };
 
       // Simulate that there is at least one existing address
@@ -232,11 +227,10 @@ describe('ClientService', () => {
     });
 
     it('should create a new address if none exist and id is not provided', async () => {
-      const updatedDate = new Date();
       const id = '1';
       const UpdateClientRequestDto: UpdateClientRequestDto = {
         name: 'Client With New Address',
-        addresses: [{ street: 'New Street', clientId: id, city: 'New City' }],
+        addresses: [{ street: 'New Street', city: 'New City' }],
       };
 
       (prisma.address.findMany as jest.Mock).mockResolvedValue([]);
@@ -244,7 +238,6 @@ describe('ClientService', () => {
       const updatedClient = new ClientEntity({
         id,
         name: 'Client With New Address',
-        updatedAt: updatedDate,
         addresses: [
           {
             street: 'New Street',
@@ -272,15 +265,14 @@ describe('ClientService', () => {
         where: { id },
         data: {
           name: 'Client With New Address',
-          updatedAt: updatedDate,
           addresses: {
             update: [
               {
                 where: { id: undefined },
-                data: { street: 'New Street', clientId: id, city: 'New City' },
+                data: { street: 'New Street', city: 'New City' },
               },
             ],
-            create: [{ street: 'New Street', clientId: id, city: 'New City' }],
+            create: [{ street: 'New Street', city: 'New City' }],
           },
         },
         include: { addresses: true },

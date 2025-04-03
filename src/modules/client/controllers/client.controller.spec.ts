@@ -148,7 +148,6 @@ describe('ClientController', () => {
         addresses: [
           {
             id: 'addr1',
-            clientId: '1',
             street: 'Updated Street',
           },
         ],
