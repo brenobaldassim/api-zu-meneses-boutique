@@ -3,10 +3,9 @@ import { ClientService } from './services/client.service';
 import { ClientController } from './controllers/client.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ClientServiceContract } from './services/contracts/client-service.contract';
-import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule],
+  imports: [PrismaModule],
   controllers: [ClientController],
   providers: [
     {

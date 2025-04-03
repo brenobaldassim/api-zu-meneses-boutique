@@ -1,15 +1,7 @@
-import {
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  Inject,
-  Param,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { UserEntity } from '../entities/user.entity';
 import { UserServiceContract } from '../services/contracts/user-service.contract';
 
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UserController {
   constructor(

@@ -7,18 +7,12 @@ import {
   Param,
   Delete,
   Inject,
-  UseInterceptors,
-  ClassSerializerInterceptor,
-  UseGuards,
 } from '@nestjs/common';
 import { CreateClientRequestDto } from '../dtos/create-client-request.dto';
 import { UpdateClientRequestDto } from '../dtos/update-client-request.dto';
 import { ClientServiceContract } from '../services/contracts/client-service.contract';
-import { AuthGuard } from '@src/modules/auth/guards/auth.guard';
 import { ClientEntity } from '../entities/client.entity';
 
-@UseGuards(AuthGuard)
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller('clients')
 export class ClientController {
   constructor(
