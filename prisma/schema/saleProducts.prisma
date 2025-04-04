@@ -1,9 +1,9 @@
 model SaleProducts {
   id        String   @id @default(uuid())
   sale      Sale     @relation(fields: [saleId], references: [id])
-  saleId    String
+  saleId    String   @map("sale_id")
   product   Product  @relation(fields: [productId], references: [id])
-  productId String
+  productId String   @map("product_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

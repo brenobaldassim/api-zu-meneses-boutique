@@ -6,7 +6,7 @@ enum AddressType {
 model Address {
   id       String      @id @default(uuid())
   client   Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId String
+  clientId String      @map("client_id")
   street   String      @db.VarChar(255)
   city     String      @db.VarChar(100)
   state    String      @db.VarChar(100)
