@@ -7,7 +7,7 @@ export class CreateProductRequestDto {
   @IsNotEmpty({ message: 'Price cannot be empty' })
   @Type(() => Number)
   @IsInt()
-  price: number;
+  priceCents: number;
   @IsNotEmpty({ message: 'Quantity cannot be empty' })
   @Type(() => Number)
   @IsInt()

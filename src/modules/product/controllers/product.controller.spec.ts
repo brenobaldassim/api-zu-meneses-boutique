@@ -36,7 +36,7 @@ describe('ProductController', () => {
     it('should call productService.create with the provided DTO and return the created product', async () => {
       const createDto: CreateProductRequestDto = {
         name: 'Test Product',
-        price: 100,
+        priceCents: 100,
         quantity: 10,
       };
 
@@ -54,8 +54,8 @@ describe('ProductController', () => {
   describe('findAll', () => {
     it('should return an array of products', async () => {
       const products = [
-        { id: '1', name: 'Product 1', price: 50, quantity: 5 },
-        { id: '2', name: 'Product 2', price: 150, quantity: 15 },
+        { id: '1', name: 'Product 1', priceCents: 50, quantity: 5 },
+        { id: '2', name: 'Product 2', priceCents: 150, quantity: 15 },
       ];
       (productService.findAll as jest.Mock).mockResolvedValue(products);
 
@@ -69,7 +69,12 @@ describe('ProductController', () => {
 
   describe('findOne', () => {
     it('should return a product by id', async () => {
-      const product = { id: '1', name: 'Product 1', price: 50, quantity: 5 };
+      const product = {
+        id: '1',
+        name: 'Product 1',
+        priceCents: 50,
+        quantity: 5,
+      };
       (productService.findOne as jest.Mock).mockResolvedValue(product);
 
       const result = await controller.findOne('1');
@@ -84,7 +89,7 @@ describe('ProductController', () => {
     it('should update a product and return the updated product', async () => {
       const updateDto: UpdateProductRequestDto = {
         name: 'Updated Product',
-        price: 200,
+        priceCents: 200,
         quantity: 20,
       };
 
@@ -104,7 +109,7 @@ describe('ProductController', () => {
       const removedProduct = {
         id: '1',
         name: 'Product 1',
-        price: 50,
+        priceCents: 50,
         quantity: 5,
       };
       (productService.remove as jest.Mock).mockResolvedValue(removedProduct);

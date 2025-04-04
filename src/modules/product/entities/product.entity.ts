@@ -1,7 +1,7 @@
 export class ProductEntity {
   id: string;
   name: string;
-  price: number;
+  priceCents: number;
   quantity: number;
   createdAt: Date;
   updatedAt: Date;

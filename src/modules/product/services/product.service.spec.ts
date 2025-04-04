@@ -37,14 +37,14 @@ describe('ProductService', () => {
     it('should create a product successfully', async () => {
       const createDto: CreateProductRequestDto = {
         name: 'Test Product',
-        price: 100,
+        priceCents: 100,
         quantity: 10,
       };
 
       const createdProduct: ProductEntity = {
         id: '1',
         name: 'Test Product',
-        price: 100,
+        priceCents: 100,
         quantity: 10,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -66,7 +66,7 @@ describe('ProductService', () => {
         {
           id: '1',
           name: 'Product 1',
-          price: 50,
+          priceCents: 50,
           quantity: 5,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -74,7 +74,7 @@ describe('ProductService', () => {
         {
           id: '2',
           name: 'Product 2',
-          price: 150,
+          priceCents: 150,
           quantity: 15,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -96,7 +96,7 @@ describe('ProductService', () => {
       const product: ProductEntity = {
         id: '1',
         name: 'Product 1',
-        price: 50,
+        priceCents: 50,
         quantity: 5,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -120,14 +120,14 @@ describe('ProductService', () => {
     it('should update a product successfully', async () => {
       const updateDto: UpdateProductRequestDto = {
         name: 'Updated Product',
-        price: 200,
+        priceCents: 200,
         quantity: 20,
       };
 
       const updatedProduct: ProductEntity = {
         id: '1',
         name: 'Updated Product',
-        price: 200,
+        priceCents: 200,
         quantity: 20,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -148,7 +148,7 @@ describe('ProductService', () => {
     it('should throw an error if update fails', async () => {
       const updateDto: UpdateProductRequestDto = {
         name: 'Updated Product',
-        price: 200,
+        priceCents: 200,
         quantity: 20,
       };
 
@@ -169,7 +169,7 @@ describe('ProductService', () => {
       const removedProduct: ProductEntity = {
         id: '1',
         name: 'Product 1',
-        price: 50,
+        priceCents: 50,
         quantity: 5,
         createdAt: new Date(),
         updatedAt: new Date(),

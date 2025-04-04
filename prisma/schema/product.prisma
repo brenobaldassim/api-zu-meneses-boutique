@@ -1,7 +1,7 @@
 model Product {
   id           String         @id @default(uuid())
   name         String         @db.VarChar(255)
-  price        Int
+  priceCents   Int            @map("price_cents")
   quantity     Int
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
