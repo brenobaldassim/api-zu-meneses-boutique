@@ -1,4 +1,4 @@
-model SaleProduct {
+model SaleProducts {
   id        String   @id @default(uuid())
   sale      Sale     @relation(fields: [saleId], references: [id])
   saleId    String
