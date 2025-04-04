@@ -1,11 +1,12 @@
 model Sale {
-  id           String         @id @default(uuid())
-  client       Client         @relation(fields: [clientId], references: [id])
-  clientId     String         @map("client_id")
-  saleDate     DateTime       @map("sale_date")
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
-  saleProducts SaleProducts[]
+  id               String         @id @default(uuid())
+  client           Client         @relation(fields: [clientId], references: [id])
+  clientId         String         @map("client_id")
+  saleDate         DateTime       @map("sale_date")
+  totalAmountCents Int            @map("total_amount_cents")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+  saleProducts     SaleProducts[]
 
   @@map("sales")
 }
