@@ -13,6 +13,7 @@ import { EmailModule } from '@modules/email/email.module';
 import { ClientModule } from '../client/client.module';
 import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { ProductModule } from '../product/product.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthGuard } from '../auth/guards/auth.guard';
     UserModule,
     AuthModule,
     ClientModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

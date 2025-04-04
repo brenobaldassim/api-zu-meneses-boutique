@@ -2,6 +2,7 @@ model Product {
   id           String        @id @default(uuid())
   name         String        @db.VarChar(255)
   price        Int
+  quantity     Int
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
   saleProducts SaleProduct[]
