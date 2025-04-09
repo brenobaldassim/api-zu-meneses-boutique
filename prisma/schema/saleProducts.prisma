@@ -1,6 +1,6 @@
 model SaleProducts {
   id        String   @id @default(uuid())
-  sale      Sale     @relation(fields: [saleId], references: [id])
+  sale      Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
   saleId    String   @map("sale_id")
   product   Product  @relation(fields: [productId], references: [id])
   productId String   @map("product_id")
