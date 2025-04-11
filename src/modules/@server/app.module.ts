@@ -14,6 +14,7 @@ import { ClientModule } from '../client/client.module';
 import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { ProductModule } from '../product/product.module';
+import { SaleModule } from '../sale/sale.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ProductModule } from '../product/product.module';
     AuthModule,
     ClientModule,
     ProductModule,
+    SaleModule,
   ],
   controllers: [AppController],
   providers: [

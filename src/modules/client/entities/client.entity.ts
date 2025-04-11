@@ -1,4 +1,5 @@
 import { Address } from '@prisma/client';
+import { SaleEntity } from '@src/modules/sale/entities/sale.entity';
 
 export class ClientEntity {
   id: string;
@@ -10,6 +11,7 @@ export class ClientEntity {
   createdAt: Date;
   updatedAt: Date;
   addresses?: Address[];
+  sales?: SaleEntity[];
 
   constructor(partial: Partial<ClientEntity>) {
     Object.assign(this, partial);
