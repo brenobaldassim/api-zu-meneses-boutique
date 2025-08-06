@@ -29,10 +29,18 @@ export class RequestLoggerService {
   }
 
   private getStatusEmoji(statusCode: number): string {
-    if (statusCode >= 200 && statusCode < 300) return '✅';
-    if (statusCode >= 300 && statusCode < 400) return '🔄';
-    if (statusCode >= 400 && statusCode < 500) return '⚠️';
-    if (statusCode >= 500) return '❌';
+    if (statusCode >= 200 && statusCode < 300) {
+      return '✅';
+    }
+    if (statusCode >= 300 && statusCode < 400) {
+      return '🔄';
+    }
+    if (statusCode >= 400 && statusCode < 500) {
+      return '⚠️';
+    }
+    if (statusCode >= 500) {
+      return '❌';
+    }
     return '📋';
   }
 
