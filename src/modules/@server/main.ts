@@ -1,7 +1,7 @@
 import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 
 const PORT = process.env.PORT ?? 3000;
 
@@ -18,5 +18,9 @@ async function bootstrap() {
   await app.listen(PORT);
 }
 bootstrap()
-  .then(() => console.log(`Server Running on ${PORT}`))
-  .catch((e) => console.log(`server crashed with error: ${e}`));
+  .then(() => {
+    Logger.log(`Server Running on port ${PORT}`, 'Bootstrap');
+  })
+  .catch((e) => {
+    Logger.error(`Server crashed with error: ${e}`, 'Bootstrap');
+  });

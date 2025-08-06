@@ -15,6 +15,8 @@ import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { ProductModule } from '../product/product.module';
 import { SaleModule } from '../sale/sale.module';
+import { LoggerModule } from '../logger/logger.module';
+import { LoggingInterceptor } from '../logger/interceptors/logging.interceptor';
 
 @Module({
   imports: [
@@ -26,6 +28,7 @@ import { SaleModule } from '../sale/sale.module';
     ClientModule,
     ProductModule,
     SaleModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
@@ -48,6 +51,11 @@ import { SaleModule } from '../sale/sale.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    // Global Logging Interceptor
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
     },
   ],
 })
